@@ -1,0 +1,19 @@
+body{
+	font-family: 'Century Gothic',helvetica,verdana,arial;
+	background: url(https://img-cdn.pixlr.com/pixlr-templates/64a26c58c4247e1cdde69e09/preview.webp) no-repeat center center fixed;
+	background-size: cover;
+	margin:0;
+}
+
+.bottom-space{
+	margin-bottom: 1em;
+}
+
+.top-space{
+	margin-top: 1em;
+}
+
+#page_wrapper{
+	margin: 1em;
+	min-width: 700px;
+}

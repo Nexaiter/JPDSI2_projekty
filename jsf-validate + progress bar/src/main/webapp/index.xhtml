@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+      
+<ui:composition template="/templates/page-template.xhtml">
+
+<ui:define name = "pageContent">
+
+	<p:panel header="Podejście z primefaces">
+    <h:form>
+        <h2>Liczenie delty</h2>
+        <h:panelGrid id="grid" columns="3" cellpadding="7">
+            <p:outputLabel for="a" value="A:" />
+            <p:inputText id="a" value="#{deltaBB.a}" required="true" requiredMessage="Brak A" />
+            <p:message for="a" />
+
+            <p:outputLabel for="b" value="B:" />
+            <p:inputText id="b" value="#{deltaBB.b}" required="true" requiredMessage="Brak B" />
+            <p:message for="b" />
+
+            <p:outputLabel for="C" value="C:" />
+            <p:inputText id="C" value="#{deltaBB.c}" required="true" requiredMessage="Brak C" />
+            <p:message for="C" />
+        </h:panelGrid>
+        
+        <p:commandButton value="Oblicz delte" action="#{deltaBB.delta_AJAX()}" update="msg"
+    onclick="PF('pbAjax').start(); PF('startButton2').disable()" widgetVar="startButton2"
+    style="margin-bottom: 20px;" />
+		
+    	 <p:progressBar widgetVar="pbAjax" ajax="true" value="#{progressBarView.progress1}"
+               labelTemplate="{value}%" styleClass="mt-3" global="false">
+    		<p:ajax event="complete" listener="#{deltaBB.showDelta()}" update="msg" />
+			</p:progressBar>
+        
+         <p:messages id="msg" />
+        
+    </h:form>
+</p:panel>
+</ui:define>
+</ui:composition>
+
+
+</html>
