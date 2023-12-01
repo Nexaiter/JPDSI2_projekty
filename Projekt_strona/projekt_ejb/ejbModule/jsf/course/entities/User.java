@@ -3,12 +3,14 @@ package jsf.course.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 
 /**
@@ -16,16 +18,20 @@ import jakarta.persistence.OneToMany;
  * 
  */
 @Entity
+@Table(name = "user")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	@Column(unique = true, nullable = false)
+	private Integer id;
 
+	@Column(length = 45)
 	private String login;
 
+	@Column(length = 45)
 	private String password;
 
 	private String permission;
@@ -37,11 +43,11 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public Integer getUserId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

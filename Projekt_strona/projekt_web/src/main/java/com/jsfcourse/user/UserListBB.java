@@ -21,8 +21,10 @@ import jsf.course.entities.User;
 @RequestScoped
 public class UserListBB {
 
+	private static final String PAGE_USER_REGISTER = "userRegisterPage?faces-redirect=true";
     private static final String PAGE_USER_EDIT = "userEdit?faces-redirect=true"; // Strona do edycji użytkownika
     private static final String PAGE_STAY_AT_THE_SAME = null; // Strona pozostająca bez zmian
+
 
     private String login; // Login do wyszukania użytkownika
 
@@ -36,27 +38,37 @@ public class UserListBB {
     UserDAO userDAO; // Obiekt DAO do zarządzania użytkownikami
 
     // Gettery i settery
+    
+    public String getLogin() {
+		return login;
+	}
 
+	public void setLogin(String surname) {
+		this.login = surname;
+	}
+	
+	
     // Metoda zwracająca pełną listę użytkowników
     public List<User> getFullList() {
         return userDAO.getFullList();
     }
 
     // Metoda pobierająca listę użytkowników na podstawie loginu
-    public List<User> getList() {
-        List<User> list = null;
-
-        Map<String, Object> searchParams = new HashMap<>();
-
-        // Sprawdzenie, czy login nie jest pusty ani nie składa się tylko z białych znaków
-        if (login != null && !login.trim().isEmpty()) {
-            searchParams.put("login", login); // Dodanie loginu jako kryterium wyszukiwania
-        }
-
-        list = userDAO.getUserList(searchParams); // Pobranie listy użytkowników na podstawie kryteriów wyszukiwania
-
-        return list;
-    }
+    public List<User> getList(){
+		List<User> list = null;
+		
+		//1. Prepare search params
+		Map<String,Object> searchParams = new HashMap<String, Object>();
+		
+		if (login != null && login.length() > 0){
+			searchParams.put("login", login);
+		}
+		
+		//2. Get list
+		list = userDAO.getList(searchParams);
+		
+		return list;
+	}
 
     // Metoda tworząca nowego użytkownika i przekierowująca do edycji
     public String newUser() {
@@ -64,22 +76,21 @@ public class UserListBB {
 
         flash.put("user", user); // Przekazanie danych użytkownika za pomocą Flash
 
-        return PAGE_USER_EDIT; // Przekierowanie do edycji nowego użytkownika
+        return PAGE_USER_REGISTER; // Przekierowanie do edycji nowego użytkownika
     }
 
     // Metoda edytująca istniejącego użytkownika i przekierowująca do edycji
     public String editPerson(User user) {
         flash.put("user", user); // Przekazanie danych użytkownika za pomocą Flash
 
-        return PAGE_USER_EDIT; // Przekierowanie do edycji użytkownika
+        return PAGE_STAY_AT_THE_SAME; // Przekierowanie do edycji użytkownika
     }
 
     // Metoda usuwająca użytkownika
     public String deletePerson(User user) {
-        if (user != null) {
-            userDAO.remove(user); // Usunięcie użytkownika z bazy danych
-        }
-
+        userDAO.remove(user); // Usunięcie użytkownika z bazy danych
         return PAGE_STAY_AT_THE_SAME; // Powrót do tej samej strony
     }
+    
+    
 }

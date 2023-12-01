@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -37,46 +36,57 @@ public class UserDAO {
     }
 
     public List<User> getFullList() {
-        try {
-            Query query = em.createQuery("SELECT u FROM User u");
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList(); // ZwrÃ³cenie pustej listy w przypadku bÅ‚Ä™du
-        }
+       List<User> list = null;
+       
+       Query query = em.createQuery("select u from User u");
+       
+       try {
+    	   list = query.getResultList();
+       } catch(Exception e) {
+    	   e.printStackTrace();
+       }
+       return list;
     }
 
-    public List<User> getUserList(Map<String, Object> searchParams) {
-        List<User> userList = null;
+    public List<User> getList(Map<String, Object> searchParams) {
+		List<User> list = null;
 
-        String select = "SELECT u ";
-        String from = "FROM User u ";
-        String where = "";
-        String orderby = "ORDER BY u.login ASC, u.permission";
+		// 1. Build query string with parameters
+		String select = "select u ";
+		String from = "from User u ";
+		String where = "";
+		String orderby = "order by u.login";
 
-        String permission = (String) searchParams.get("permission");
-        if (permission != null) {
-            if (where.isEmpty()) {
-                where = "WHERE ";
-            } else {
-                where += "AND ";
-            }
-            where += "u.permission LIKE :permission ";
-        }
+		// search for surname
+		String login = (String) searchParams.get("login");
+		if (login != null) {
+			if (where.isEmpty()) {
+				where = "where ";
+			} else {
+				where += "and ";
+			}
+			where += "u.login like :login ";
+		}
+		
+		// ... other parameters ... 
 
-        try {
-            Query query = em.createQuery(select + from + where + orderby);
+		// 2. Create query object
+		Query query = em.createQuery(select + from + where + orderby);
 
-            if (permission != null) {
-                query.setParameter("permission", permission + "%");
-            }
+		// 3. Set configured parameters
+		if (login != null) {
+			query.setParameter("login", login+"%");
+		}
 
-            userList = query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            userList = Collections.emptyList(); // ZwrÃ³cenie pustej listy w przypadku bÅ‚Ä™du
-        }
+		// ... other parameters ... 
 
-        return userList;
-    }
+		// 4. Execute query and retrieve list of Person objects
+		try {
+			list = query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
 }

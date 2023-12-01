@@ -19,20 +19,20 @@ import jsf.course.entities.User;
 public class UserEditBB implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final String PAGE_USER_LIST = "userList?faces-redirect=true";
+    private static final String PAGE_REGISTER_PAGE = "userRegisterPage?faces-redirect=true";
     private static final String PAGE_STAY_AT_THE_SAME = null;
 
     private User user = new User(); // Obiekt użytkownika
     private User loaded = null; // Załadowany użytkownik
 
     @EJB // Wstrzyknięcie zależności - interfejs DAO
-    private UserDAO userDAO;
+    UserDAO userDAO;
 
     @Inject // Wstrzyknięcie zależności - kontekst JSF
-    private FacesContext context;
+    FacesContext context;
 
     @Inject // Wstrzyknięcie zależności - obiekt FlashScoped
-    private Flash flash;
+    Flash flash;
 
     // Metoda zwracająca aktualnie edytowanego użytkownika
     public User getUser() {
@@ -47,33 +47,33 @@ public class UserEditBB implements Serializable {
         if (loaded != null) {
             user = loaded;
         } else {
-            addErrorMessage("Błędne użycie systemu");
+        	context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Błędne użycie systemu bb", null));
         }
     }
 
-    // Metoda zapisująca dane użytkownika
     public String saveData() {
-        if (loaded == null) {
-            return PAGE_STAY_AT_THE_SAME;
-        }
+		 //no Person object passed
+		if (loaded == null) {
+			loaded = user;
+		}
 
-        try {
-            // Zapisanie nowego rekordu lub aktualizacja istniejącego
-            if (user.getUserId() == null) {
-                userDAO.create(user);
-            } else {
-                userDAO.merge(user);
-            }
-            return PAGE_USER_LIST; // Przekierowanie po zapisie
-        } catch (Exception e) {
-            e.printStackTrace();
-            addErrorMessage("Wystąpił błąd podczas zapisu");
-            return PAGE_STAY_AT_THE_SAME;
-        }
-    }
+		try {
+			if (user.getId() == null) {
+				// new record
+				userDAO.create(user);
+			} else {
+				// existing record
+				userDAO.merge(user);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "wystąpił błąd podczas zapisu bb", null));
+			return PAGE_STAY_AT_THE_SAME;
+		}
 
-    // Metoda dodająca komunikat o błędzie
-    private void addErrorMessage(String message) {
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
-    }
+		return PAGE_REGISTER_PAGE;
+	}
+
+    
 }
