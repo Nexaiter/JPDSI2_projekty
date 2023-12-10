@@ -24,12 +24,16 @@
 					</header>
 					
 				<!-- Nav action="#{UserRegisterBB.registerUser()}"-->
-					<nav id="nav">
+						<nav id="nav">
 						<ul class="links">
-							<li class="active"><a href="index.html">This is Massively</a></li>
+							<li class="active"><a href="shopMainPage.xhtml">Strona główna</a></li>
+							<li class="active"><a href="shopProductListView.xhtml">Lista gier</a></li>
 						</ul>
+						
 						<h:form>
 						<p:commandButton value="Rejestracja" class="button primary small" action="#{userRegisterBB.registerUser()}"/>
+						<p:commandButton value="Zaloguj" class="button primary small" action="#{userLoginGETBB.loginUser()}"/>
+						<p:commandButton value="Wyloguj" class="button primary small" action="#{userLoginGETBB.loginUser()}"/>
 						</h:form>
 						
 						
