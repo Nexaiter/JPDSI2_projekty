@@ -7,7 +7,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <f:metadata>
-    <f:viewAction action="#{userEditBB.onLoad()}" />
+	<f:viewAction action="#{userRegisterBB.onLoad()}" />
 </f:metadata>
 
 <h:head>
@@ -36,42 +36,45 @@
 
 <h:body>
 	<div class="login-wrapper">
-		
+
 		<div class="containter">
 
-		<h:form>
-                <h:outputLabel for="u-login" value="Login" />
-                <p:inputText id="u-login" value="#{userEditBB.user.login}"
-                    required="true" requiredMessage="Podaj login"
-                    validatorMessage="co najwyżej 40 znaków">
-                    <f:validateLength maximum="40" />
-                </p:inputText>
-                <p:message for="u-login" display="icon"/>
+			<h:form>
+				<h:outputLabel for="u-login" value="Login" />
+				<p:inputText id="u-login" value="#{userRegisterBB.user.login}"
+					required="true" requiredMessage="Podaj login"
+					validatorMessage="co najwyżej 40 znaków">
+					<f:validateLength maximum="40" />
+				</p:inputText>
+				<p:message for="u-login" globalOnly="true" />
 
-                <h:outputLabel for="u-password" value="Hasło" />
-                <p:inputText id="u-password" value="#{userEditBB.user.password}"
-                    required="true" requiredMessage="podaj hasło"
-                    validatorMessage="co najwyżej 40 znaków">
-                    <f:validateLength maximum="40" />
-                </p:inputText>
-                <p:message for="u-password" display="icon"/>
-                
-                <h:outputLabel for="u-permission" value="Uprawnienie" />
-                <p:inputText id="u-permission" value="#{userEditBB.user.permission}"
-                    required="true" requiredMessage="podaj Uprawnienie"
-                    validatorMessage="co najwyżej 40 znaków">
-                    <f:validateLength maximum="40" />
-                </p:inputText>
-                <p:message for="u-permission" display="icon"/>
-               
+				<h:outputLabel for="u-password" value="Hasło" />
+				<p:password id="u-password" value="#{userRegisterBB.user.password}"
+					feedback="false" required="true" requiredMessage="Podaj hasło"
+					validatorMessage="co najwyżej 40 znaków">
+					<f:validateLength maximum="40" />
+				</p:password>
+				<p:message for="u-password" globalOnly="true" />
 
-            <p:messages id="msgs" />
+				<h:outputLabel for="u-permission" value="Uprawnienie" />
+				<p:inputText id="u-permission"
+					value="#{userRegisterBB.user.permission}" required="true"
+					requiredMessage="Podaj uprawnienie"
+					validatorMessage="Dozwolone wartości to 'user' lub 'admin'">
+					<f:validateLength maximum="40" />
+					<f:validator validatorId="permissionValidator" />
+				</p:inputText>
+				<p:message for="u-permission" globalOnly="true" />
 
-            <p:commandButton value="Zapisz" action="#{userEditBB.saveData()}"
-                style="margin-right: 1em;" update="@form" />
 
-            <p:button value="Anuluj" outcome="shopMainPage" />
-        </h:form>
+				<p:messages id="msgs" globalOnly="true" />
+
+				<p:commandButton value="Zarejestruj"
+					action="#{userRegisterBB.saveData()}" style="margin-right: 1em;"
+					update="@form" />
+
+				<p:button value="Powrót" outcome="shopMainPage" />
+			</h:form>
 
 		</div>
 	</div>

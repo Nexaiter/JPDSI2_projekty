@@ -47,12 +47,12 @@ public class ProductListBB {
 	}
 	
 	
-    // Metoda zwracająca pełną listę użytkowników
+
     public List<Product> getFullList() {
         return productDAO.getFullList();
     }
 
-    // Metoda pobierająca listę użytkowników na podstawie loginu
+    
     public List<Product> getList(){
 		List<Product> list = null;
 		

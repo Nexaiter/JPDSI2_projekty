@@ -9,6 +9,7 @@ import java.util.Map;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
@@ -48,6 +49,19 @@ public class UserDAO {
        return list;
     }
 
+    public String getPermission(String login) {
+        String sql = "SELECT u.permission FROM User u WHERE u.login = :login";
+        Query query = em.createQuery(sql);
+        query.setParameter("login", login);
+        
+        try {
+            return (String) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // handle situation when no result is found for given login
+        }
+    }
+    
+    
     public List<User> getList(Map<String, Object> searchParams) {
 		List<User> list = null;
 
@@ -89,4 +103,14 @@ public class UserDAO {
 
 		return list;
 	}
+    
+    public User findUserByLogin(String login) {
+        try {
+            Query query = em.createQuery("SELECT u FROM User u WHERE u.login = :login");
+            query.setParameter("login", login);
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

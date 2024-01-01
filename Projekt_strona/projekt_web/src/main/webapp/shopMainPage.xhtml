@@ -5,88 +5,131 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-	
-	<h:head>
-    <title>Massively by HTML5 UP</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="#{resource['template:css/main.css']}" />
-		<!--  <noscript><link rel="stylesheet" href="template/css/noscript.css" /></noscript>-->
-		<noscript><link rel="stylesheet" href="#{resource['template:css/noscript.css']}" /></noscript>
-	</h:head>
-			
-	<h:body>
-		<div id="wrapper" class="fade-in">
-				
-				<!-- Header -->
-					<header id="header">
-						<h1> </h1>
-					</header>
-					
-				<!-- Nav action="#{UserRegisterBB.registerUser()}"-->
-						<nav id="nav">
-						<ul class="links">
-							<li class="active"><a href="shopMainPage.xhtml">Strona główna</a></li>
-							<li class="active"><a href="shopProductListView.xhtml">Lista gier</a></li>
-						</ul>
-						
-						<h:form>
-						<p:commandButton value="Rejestracja" class="button primary small" action="#{userRegisterBB.registerUser()}"/>
-						<p:commandButton value="Zaloguj" class="button primary small" action="#{userLoginGETBB.loginUser()}"/>
-						<p:commandButton value="Wyloguj" class="button primary small" action="#{userLoginGETBB.loginUser()}"/>
-						</h:form>
-						
-						
-					</nav>					
-					
-				<!-- Main -->
-					<div id="main">
 
-						<!-- Featured Post -->
-							<article class="post featured">
-								<header class="major">
-									<h2>Game World<br /></h2>
-									<p>Witaj w GameWorld - Twoim pierwszym przystanku w świecie gier! Jesteśmy dynamicznym sklepem internetowym, który oferuje szeroki wybór gier dla różnych platform, dostarczając niezapomniane doznania dla pasjonatów rozrywki w każdym wieku. Nasza misja polega na zapewnieniu klientom najnowszych tytułów, klasycznych hitów i wyjątkowych ekskluzywności, aby zaspokoić nawet najbardziej wymagające gusta graczy.</p>
-								</header>
-								<a  class="image main"><img src="https://www.legalniewsieci.pl/!data/newsy/news_2631.jpg" alt="" /></a>
-								
-								<h2>Game World<br /></h2>
-									<p>W GameWorld oferujemy kompleksową gamę usług związanych z sprzedażą gier. Nasze szerokie portfolio obejmuje gry na konsole, komputery PC oraz urządzenia przenośne. Z nami możesz być pewien, że znajdziesz najgorętsze nowości na rynku, od fascynujących przygodowych tytułów po intensywne gry akcji, strategie, symulatory, sportowe i wiele więcej.</p>
-									<p>Nasza pasja do gier jest nieodłączną częścią naszego DNA, dlatego dbamy o to, aby nasza oferta była zawsze aktualna i różnorodna. Współpracujemy z renomowanymi wydawcami i producentami, aby dostarczać Ci gry od najlepszych twórców branży.</p>
-									<p>W GameWorld dbamy również o wygodę naszych klientów. Nasza responsywna strona internetowa umożliwia łatwe i intuicyjne przeglądanie katalogu gier, proste zamawianie i szybką dostawę. Zapewniamy również pomoc techniczną, gdybyś potrzebował wsparcia w instalacji lub rozwiązywaniu problemów z grami.</p>
-									<p>Dołącz do naszej społeczności graczy i odkryj nieograniczone możliwości, jakie oferuje świat gier. GameWorld to miejsce, gdzie Twoje marzenia o epickich przygodach i niesamowitych wyzwaniach stają się rzeczywistością.</p>
-							</article>
-							</div>
-					<!-- Posts -->
-					
-					<!-- Footer -->
-					<footer id="footer">
-						
-						<section class="split contact">
-							<section class="alt">
-								<h3>Address</h3>
-								<p>Uniwersytet Śląski w Katowicach<br />
-								Bankowa 12, 40-007 Katowice</p>
-							</section>
-							<section>
-								<h3>Phone</h3>
-								<p>(12)297345</p>
-							</section>
-							<section>
-								<h3>Email</h3>
-								<p>totallynot@sus.code.com</p>
-							</section>						
-						</section>
-					</footer>
-    	</div>
-    	
-    	<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-	</h:body>
+<h:head>
+	<title>Massively by HTML5 UP</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="#{resource['template:css/main.css']}" />
+	<!--  <noscript><link rel="stylesheet" href="template/css/noscript.css" /></noscript>-->
+	<noscript>
+		<link rel="stylesheet" href="#{resource['template:css/noscript.css']}" />
+	</noscript>
+</h:head>
+
+<h:body>
+	<div id="wrapper" class="fade-in">
+
+		<!-- Header -->
+		<header id="header">
+			<h1></h1>
+		</header>
+
+		<!-- Nav action="#{UserRegisterBB.registerUser()}"-->
+		<nav id="nav">
+			<ul class="links">
+				<li class="active"><a href="shopMainPage.xhtml">Strona
+						główna</a></li>
+				<li class="active"><a href="shopProductListView.xhtml">Lista
+						gier</a></li>
+				<h:outputText
+					value="	Zalogowany użytkownik: #{userSenderBB.loggedUser}" />
+
+			</ul>
+
+			<h:form rendered="#{empty userSenderBB.loggedUser}">
+				<p:commandButton value="Rejestracja" class="button primary small"
+					action="#{userRegisterBB.registerUser()}" />
+				<p:commandButton value="Zaloguj" class="button primary small"
+					action="#{userLoginGETBB.loginUser()}" />
+
+			</h:form>
+
+			<h:form rendered="#{not empty userSenderBB.loggedUser}">
+				<p:commandButton value="Wyloguj" class="button primary small"
+					action="#{userSenderBB.logout()}" />
+			</h:form>
+
+
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- Featured Post -->
+			<article class="post featured">
+				<header class="major">
+					<h2>
+						Game World<br />
+					</h2>
+					<p>Witaj w GameWorld - Twoim pierwszym przystanku w świecie
+						gier! Jesteśmy dynamicznym sklepem internetowym, który oferuje
+						szeroki wybór gier dla różnych platform, dostarczając
+						niezapomniane doznania dla pasjonatów rozrywki w każdym wieku.
+						Nasza misja polega na zapewnieniu klientom najnowszych tytułów,
+						klasycznych hitów i wyjątkowych ekskluzywności, aby zaspokoić
+						nawet najbardziej wymagające gusta graczy.</p>
+				</header>
+				<a class="image main"><img
+					src="https://www.legalniewsieci.pl/!data/newsy/news_2631.jpg"
+					alt="" /></a>
+
+				<h2>
+					Game World<br />
+				</h2>
+				<p>W GameWorld oferujemy kompleksową gamę usług związanych z
+					sprzedażą gier. Nasze szerokie portfolio obejmuje gry na konsole,
+					komputery PC oraz urządzenia przenośne. Z nami możesz być pewien,
+					że znajdziesz najgorętsze nowości na rynku, od fascynujących
+					przygodowych tytułów po intensywne gry akcji, strategie,
+					symulatory, sportowe i wiele więcej.</p>
+				<p>Nasza pasja do gier jest nieodłączną częścią naszego DNA,
+					dlatego dbamy o to, aby nasza oferta była zawsze aktualna i
+					różnorodna. Współpracujemy z renomowanymi wydawcami i producentami,
+					aby dostarczać Ci gry od najlepszych twórców branży.</p>
+				<p>W GameWorld dbamy również o wygodę naszych klientów. Nasza
+					responsywna strona internetowa umożliwia łatwe i intuicyjne
+					przeglądanie katalogu gier, proste zamawianie i szybką dostawę.
+					Zapewniamy również pomoc techniczną, gdybyś potrzebował wsparcia w
+					instalacji lub rozwiązywaniu problemów z grami.</p>
+				<p>Dołącz do naszej społeczności graczy i odkryj nieograniczone
+					możliwości, jakie oferuje świat gier. GameWorld to miejsce, gdzie
+					Twoje marzenia o epickich przygodach i niesamowitych wyzwaniach
+					stają się rzeczywistością.</p>
+			</article>
+		</div>
+		<!-- Posts -->
+
+		<!-- Footer -->
+		<footer id="footer">
+
+			<section class="split contact">
+				<section class="alt">
+					<h3>Address</h3>
+					<p>
+						Uniwersytet Śląski w Katowicach<br /> Bankowa 12, 40-007 Katowice
+					</p>
+				</section>
+				<section>
+					<h3>Phone</h3>
+					<p>(12)297345</p>
+				</section>
+				<section>
+					<h3>Email</h3>
+					<p>totallynot@sus.code.com</p>
+				</section>
+			</section>
+		</footer>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+</h:body>
 </html>

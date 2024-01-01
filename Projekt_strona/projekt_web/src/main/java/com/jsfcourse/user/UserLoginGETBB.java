@@ -51,7 +51,6 @@ public class UserLoginGETBB {
 		this.password = password;
 	}
 	
-	
 	public String loginUser() {
 		User user = new User();
 		flash.put("user", user);
