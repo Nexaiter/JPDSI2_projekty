@@ -24,7 +24,7 @@ public class Product implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Lob
 	private String description;
@@ -47,7 +47,7 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 

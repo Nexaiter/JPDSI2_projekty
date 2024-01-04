@@ -64,6 +64,14 @@ public class UserSenderBB implements Serializable {
 		}
 		return null; 
 	}
+	
+	public String getUserPermission() {
+		HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
+		if (session != null) {
+			return (String) session.getAttribute("permission");
+		}
+		return null; 
+	}
 
 	public String sendThroughSession() {
 		getPermissionFromDB();

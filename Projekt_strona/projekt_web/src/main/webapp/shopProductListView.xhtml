@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:p="http://primefaces.org/ui"
@@ -8,144 +9,168 @@
 <h:head>
 	<title>Lista gier</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="#{resource['template:css/main.css']}" />
 	<noscript>
 		<link rel="stylesheet" href="template/css/noscript.css" />
 	</noscript>
+	<style>
+.game-table {
+	width: 100%;
+	table-layout: fixed;
+}
 
-   <style>
-        .game-table {
-            width: 100%;
-            table-layout: fixed; /* Zapewnia, że kolumny będą miały ustaloną szerokość */
-        }
-        
-        .name-column {
-            width: 15%;
-            vertical-align: top; /* Tekst zaczyna się od góry */
-        }
-        
-        .price-column {
-            width: 10%; /* Zmieniona szerokość kolumny cen */
-            vertical-align: top;
-        }
-        
-        .image-column {
-            width: 25%;
-            vertical-align: top;
-        }
-        
-        .image-container img {
-            width: 100%;
-            height: auto;
-        }
-        
-        .description-column {
-            width: 35%; /* Zmieniona szerokość kolumny opisów */
-            vertical-align: top;
-        }
-        
-        .order-column {
-            width: 20%;
-            vertical-align: top;
-        }
-    </style>
+.name-column {
+	width: 10%;
+	vertical-align: top;
+}
+
+.price-column {
+	width: 10%;
+	vertical-align: top;
+}
+
+.image-column {
+	width: 25%;
+	vertical-align: top;
+}
+
+.image-container img {
+	width: 100%;
+	height: auto;
+}
+
+.description-column {
+	width: 40%;
+	vertical-align: top;
+}
+
+.order-column {
+	width: 15%;
+	vertical-align: top;
+}
+</style>
 </h:head>
 
-<h:body class="is-preload">
-    <div id="wrapper" class="fade-in">
-        <header id="header">
-            <h1></h1>
-        </header>
 
-        <nav id="nav">
-            <ul class="links">
-                <li class="active"><a href="shopMainPage.xhtml">Strona główna</a></li>
-            </ul>
-            <h:form>
-                guziki
-            </h:form>
-        </nav>
+<h:body style="background-color: #eee; margin: 0.5em;">
 
-        <div id="main">
-            <article class="post featured">
-                <header class="major">
-                    <h2>Lista oferowanych gier</h2>
-                    <p>Gotowe do odkrycia nowych światów i przygód? W GameWorld czeka na Ciebie niezwykła kolekcja gier, które przeniosą Cię w najbardziej ekscytujące i fascynujące miejsca. Niezależnie od tego, czy jesteś fanem akcji, przygód, strategii czy sportu, mamy coś specjalnie dla Ciebie!</p>
-                    <p>Nie trać czasu i sprawdź naszą pełną kolekcję gier! Znajdziesz je wszystkie na naszej responsywnej stronie internetowej. Zamów już dziś i gotuj się na niezapomniane przygody, które czekają na Ciebie.</p>
-                </header>
-            </article>
+	<header id="header">
+		<h1></h1>
+	</header>
 
-            <p:panelGrid columns="1">
-                <p:dataTable value="#{productListBB.getFullList()}" var="p" styleClass="game-table">
+	<nav id="nav">
+		<ul class="links">
+			<li class="active"><a href="shopMainPage.xhtml">Strona
+					główna</a></li>
+		</ul>
+		<h:form rendered="#{empty userSenderBB.loggedUser}">
+			<p:commandButton value="Rejestracja" class="button primary small"
+				action="#{userRegisterBB.registerUser()}" />
+			<p:commandButton value="Zaloguj" class="button primary small"
+				action="#{userLoginGETBB.loginUser()}" />
 
-                    <p:column styleClass="name-column">
-                        <f:facet name="header">
-                            <h:outputText value="Nazwa" />
-                        </f:facet>
-                        <h:outputText value="#{p.name}" />
-                    </p:column>
+		</h:form>
 
-                    <p:column styleClass="price-column">
-                        <f:facet name="header">
-                            <h:outputText value="Cena" />
-                        </f:facet>
-                        <h:outputText value="#{p.price}" />
-                    </p:column>
 
-                    <p:column styleClass="image-column">
-                        <f:facet name="header">
-                            <h:outputText value="Obrazek" />
-                        </f:facet>
-                        <div class="image-container">
-                            <p:graphicImage value="#{p.image}" alt="" />
-                        </div>
-                    </p:column>
+		<h:form rendered="#{not empty userSenderBB.loggedUser}">
+			<p:commandButton value="Dodaj grę" class="button primary small"
+				rendered="#{userSenderBB.userPermission eq 'admin'}"
+				action="#{productListBB.newProduct()}" />
+			<p:commandButton value="Wyloguj" class="button primary small"
+				action="#{userSenderBB.logout()}" />
+		</h:form>
+	</nav>
 
-                    <p:column styleClass="description-column">
-                        <f:facet name="header">
-                            <h:outputText value="Opis" />
-                        </f:facet>
-                        <h:outputText value="#{p.description}" />
-                    </p:column>
+	<div id="main">
+		<article class="post featured">
+			<header class="major">
+				<h2>Lista oferowanych gier</h2>
+				<p>Gotowe do odkrycia nowych światów i przygód? W GameWorld
+					czeka na Ciebie niezwykła kolekcja gier, które przeniosą Cię w
+					najbardziej ekscytujące i fascynujące miejsca. Niezależnie od tego,
+					czy jesteś fanem akcji, przygód, strategii czy sportu, mamy coś
+					specjalnie dla Ciebie!</p>
+				<p>Nie trać czasu i sprawdź naszą pełną kolekcję gier!
+					Znajdziesz je wszystkie na naszej responsywnej stronie
+					internetowej. Zamów już dziś i gotuj się na niezapomniane przygody,
+					które czekają na Ciebie.</p>
+			</header>
+		</article>
 
-                    <p:column styleClass="order-column">
-                        <f:facet name="header">
-                            <h:outputText value="Akcje" />
-                        </f:facet>
-                        <h:form>
-                            <p:commandButton value="Zamów" class="button primary small" />
-                        </h:form>
-                    </p:column>
+		<h:form>
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Wyszukaj grę" />
+				<p:inputText value="#{productListBB.name}" />
+				<p:commandButton value="Szukaj" update="form-table" />
+			</h:panelGrid>
+		</h:form>
 
-                </p:dataTable>
-            </p:panelGrid>
-        </div>
 
-        <footer id="footer">
-            <section class="split contact">
-                <section class="alt">
-                    <h3>Address</h3>
-                    <p>Uniwersytet Śląski w Katowicach<br /> Bankowa 12, 40-007 Katowice</p>
-                </section>
-                <section>
-                    <h3>Phone</h3>
-                    <p>(12)297345</p>
-                </section>
-                <section>
-                    <h3>Email</h3>
-                    <p>totallynot@sus.code.com</p>
-                </section>
-            </section>
-        </footer>
-    </div>
+		<h:form id="form-table" style="margin-bottom:1em;">
 
-       <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/jquery.scrolly.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
+			<p:dataTable value="#{productListBB.list}" var="p">
+
+					<p:column styleClass="name-column">
+					<f:facet name="header">
+						<h:outputText value="nazwa" />
+					</f:facet>
+					<h:outputText value="#{p.name}" />
+				</p:column>
+				<p:column styleClass="price-column">
+					<f:facet name="header">
+						<h:outputText value="Cena" />
+					</f:facet>
+					<h:outputText value="#{p.price}" />
+				</p:column>
+				<p:column styleClass="description-column">
+					<f:facet name="header">
+						<h:outputText value="Opis" />
+					</f:facet>
+					<h:outputText value="#{p.description}" />
+				</p:column>
+
+
+
+				<p:column styleClass="image-column">
+					<f:facet name="header">
+						<h:outputText value="Obrazek" />
+					</f:facet>
+					<div class="image-container">
+						<p:graphicImage value="#{p.image}" alt="" />
+					</div>
+				</p:column>
+
+				<p:column styleClass="order-column">
+					<f:facet name="header">
+						<h:outputText value="Akcje" />
+					</f:facet>
+					<h:form rendered="#{not empty userSenderBB.loggedUser}">
+						<p:commandButton value="Edytuj" class="button primary small"
+							rendered="#{userSenderBB.userPermission eq 'admin'}"
+							action="#{productListBB.editProduct(p)}" />
+						<p:commandButton value="Usuń" class="button primary small"
+							rendered="#{userSenderBB.userPermission eq 'admin'}"
+							action="#{productListBB.removeProduct(p)}" update="@form" />
+						<p:commandButton value="Zamów" class="button primary small"
+							rendered="#{userSenderBB.userPermission eq 'user'}" />
+					</h:form>
+					<h:form rendered="#{empty userSenderBB.loggedUser}">
+						<p:commandButton value="Zaloguj" class="button primary small"
+							action="#{userLoginGETBB.loginUser()}" />
+					</h:form>
+				</p:column>
+
+			</p:dataTable>
+		</h:form>
+	</div>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
 </h:body>
 </html>
