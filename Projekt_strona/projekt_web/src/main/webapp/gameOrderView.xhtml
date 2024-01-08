@@ -5,20 +5,121 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
-	
-	<h:head>
-    <title>Zamówienie</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="#{resource['template:css/main.css']}" />
-		<noscript><link rel="stylesheet" href="template/css/noscript.css" /></noscript>
-		
-	</h:head>
-	
-	<h:body>
-		
-	</h:body>
-	
-	
-	
+
+<h:head>
+	<title>Zamówienia</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="#{resource['template:css/main.css']}" />
+	<noscript>
+		<link rel="stylesheet" href="template/css/noscript.css" />
+	</noscript>
+	<style>
+.game-table {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.name-column {
+	width: 10%;
+	vertical-align: top;
+}
+
+.price-column {
+	width: 10%;
+	vertical-align: top;
+}
+
+.image-column {
+	width: 25%;
+	vertical-align: top;
+}
+
+.image-container img {
+	width: 100%;
+	height: auto;
+}
+
+.description-column {
+	width: 40%;
+	vertical-align: top;
+}
+
+.order-column {
+	width: 15%;
+	vertical-align: top;
+}
+</style>
+</h:head>
+
+
+<h:body style="background-color: #eee; margin: 0.5em;">
+
+	<header id="header">
+		<h1></h1>
+	</header>
+
+	<nav id="nav">
+		<ul class="links">
+			<li class="active"><a href="shopMainPage.xhtml">Strona
+					główna</a></li>
+			<li class="active"><a href="shopProductListView.xhtml">Lista
+					gier</a></li>
+		</ul>
+		<h:form rendered="#{empty userSenderBB.loggedUser}">
+			<p:commandButton value="Rejestracja" class="button primary small"
+				action="#{userRegisterBB.registerUser()}" />
+			<p:commandButton value="Zaloguj" class="button primary small"
+				action="#{userLoginGETBB.loginUser()}" />
+		</h:form>
+
+		<h:form rendered="#{not empty userSenderBB.loggedUser}">
+
+			<p:commandButton value="Wyloguj" class="button primary small"
+				action="#{userSenderBB.logout()}" />
+		</h:form>
+	</nav>
+
+	<div id="main">
+		<h:form id="form-table" style="margin-bottom:1em;">
+
+			<p:dataTable value="#{gameOrderListBB.list}" var="g">
+
+				<p:column styleClass="name-column">
+					<f:facet name="header">
+						<h:outputText value="Ilość" />
+					</f:facet>
+					<h:outputText value="#{g.amount}" />
+				</p:column>
+				<p:column styleClass="name-column">
+					<f:facet name="header">
+						<h:outputText value="Cena łączna" />
+					</f:facet>
+					<h:outputText value="#{g.totalPrice}" />
+				</p:column>
+
+				<p:column styleClass="name-column">
+					<f:facet name="header">
+						<h:outputText value="Nazwa gry" />
+					</f:facet>
+					<h:outputText value="#{g.name}" />
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+		<h:form>
+			<p:commandButton value="Usuń zamówienia"
+				action="#{gameOrderListBB.removeOrders()}" update="@form" />
+		</h:form>
+	</div>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+</h:body>
 </html>

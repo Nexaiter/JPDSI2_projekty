@@ -33,10 +33,10 @@
 						główna</a></li>
 				<li class="active"><a href="shopProductListView.xhtml">Lista
 						gier</a></li>
+
 				<h:outputText
 					value="	Zalogowany użytkownik: #{userSenderBB.loggedUser}" />
-					<h:outputText
-					value="	rola: #{userSenderBB.userPermission}" />
+				<h:outputText value="	id: #{userSenderBB.userId}" />
 
 			</ul>
 
@@ -49,6 +49,7 @@
 			</h:form>
 
 			<h:form rendered="#{not empty userSenderBB.loggedUser}">
+				<p:button outcome="gameOrderView.xhtml" value="Lista zamówień" class="button primary small"/>
 				<p:commandButton value="Wyloguj" class="button primary small"
 					action="#{userSenderBB.logout()}" />
 			</h:form>

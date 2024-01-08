@@ -28,7 +28,7 @@ public class Gameorder implements Serializable {
 
 	private int amount;
 
-	private int price;
+	private int price;	
 
 	//bi-directional many-to-one association to Product
 	@ManyToOne
@@ -81,6 +81,18 @@ public class Gameorder implements Serializable {
 
 	public User getUser() {
 		return this.user;
+	}
+	
+	public Integer getUserID() {
+		return this.user.getId();
+	}
+	
+	public void setUserID(Integer id) {
+		this.user.setId(id);
+	}
+	
+	public Integer getProductID() {
+		return this.product.getId();
 	}
 
 	public void setUser(User user) {

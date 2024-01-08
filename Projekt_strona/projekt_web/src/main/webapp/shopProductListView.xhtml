@@ -64,6 +64,9 @@
 		<ul class="links">
 			<li class="active"><a href="shopMainPage.xhtml">Strona
 					główna</a></li>
+			<li class="active"><a href="shopProductListView.xhtml">Lista
+					gier</a></li>
+
 		</ul>
 		<h:form rendered="#{empty userSenderBB.loggedUser}">
 			<p:commandButton value="Rejestracja" class="button primary small"
@@ -78,6 +81,7 @@
 			<p:commandButton value="Dodaj grę" class="button primary small"
 				rendered="#{userSenderBB.userPermission eq 'admin'}"
 				action="#{productListBB.newProduct()}" />
+			<p:button outcome="gameOrderView.xhtml" value="Lista zamówień" class="button primary small" />
 			<p:commandButton value="Wyloguj" class="button primary small"
 				action="#{userSenderBB.logout()}" />
 		</h:form>
@@ -97,6 +101,10 @@
 					internetowej. Zamów już dziś i gotuj się na niezapomniane przygody,
 					które czekają na Ciebie.</p>
 			</header>
+
+			<h:outputText
+				value="	Zalogowany użytkownik: #{userSenderBB.loggedUser}" />
+			<h:outputText value="	id: #{userSenderBB.userId}" />
 		</article>
 
 
@@ -140,7 +148,7 @@
 					</div>
 				</p:column>
 
-				
+
 				<p:column styleClass="order-column">
 					<f:facet name="header">
 						<h:outputText value="Akcje" />
@@ -155,6 +163,7 @@
 						rendered="#{userSenderBB.userPermission eq 'admin'}" />
 
 					<p:commandButton value="Zamów" class="button primary small"
+						action="#{gameOrderListBB.newOrder(p)}" update="@form"
 						rendered="#{userSenderBB.userPermission eq 'user'}" />
 
 					<p:commandButton value="Zaloguj" class="button primary small"

@@ -61,6 +61,18 @@ public class UserDAO {
         }
     }
     
+    public Integer getId(String login) {
+        String sql = "SELECT u.id FROM User u WHERE u.login = :login";
+        Query query = em.createQuery(sql);
+        query.setParameter("login", login);
+        
+        try {
+            return (Integer) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null; // handle situation when no result is found for given login
+        }
+    }
+    
     
     public List<User> getList(Map<String, Object> searchParams) {
 		List<User> list = null;

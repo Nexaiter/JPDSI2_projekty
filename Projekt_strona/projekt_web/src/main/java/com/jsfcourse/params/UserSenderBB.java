@@ -19,6 +19,7 @@ import jakarta.inject.Named;
 public class UserSenderBB implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Integer id;
 	private String login;
 	private String password;
 	private String permission;
@@ -29,6 +30,14 @@ public class UserSenderBB implements Serializable {
 	@EJB
 	UserDAO userDAO;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -56,6 +65,10 @@ public class UserSenderBB implements Serializable {
 	private void getPermissionFromDB() {
 		this.permission = userDAO.getPermission(this.login);
 	}
+	
+	private void getIdFromDB() {
+		this.id = userDAO.getId(this.login);
+	}
 
 	public String getLoggedUser() {
 		HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
@@ -72,10 +85,20 @@ public class UserSenderBB implements Serializable {
 		}
 		return null; 
 	}
+	
+	public Integer getUserId() {
+		HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
+		if (session != null) {
+			return (Integer) session.getAttribute("id");
+		}
+		return null; 
+	}
 
 	public String sendThroughSession() {
 		getPermissionFromDB();
+		getIdFromDB();
 		HttpSession session = (HttpSession) ctx.getExternalContext().getSession(true);
+		session.setAttribute("id", id);
 		session.setAttribute("login", login);
 		session.setAttribute("password", password);
 		session.setAttribute("permission", permission);
