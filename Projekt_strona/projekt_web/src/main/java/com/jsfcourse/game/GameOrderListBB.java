@@ -108,18 +108,52 @@ public class GameOrderListBB {
 		return PAGE_STAY_AT_THE_SAME;
 	}
 
+	/*
+	 * public String newOrder(Product product) { Gameorder gameOrder = new
+	 * Gameorder();
+	 * 
+	 * HttpSession session = (HttpSession)
+	 * ctx.getExternalContext().getSession(false); var userId = (Integer)
+	 * session.getAttribute("id");
+	 * 
+	 * gameOrder.setUser(userDAO.find(userId)); gameOrder.setProduct(product);
+	 * 
+	 * gameOrderDAO.create(gameOrder);
+	 * 
+	 * return PAGE_STAY_AT_THE_SAME; }
+	 */
+	
 	public String newOrder(Product product) {
-		Gameorder gameOrder = new Gameorder();
+	    HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
+	    Integer userId = (Integer) session.getAttribute("id");
 
-		HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
-		var userId = (Integer) session.getAttribute("id");
+	    // Pobierz listę zamówień użytkownika
+	    List<Gameorder> userOrders = gameOrderDAO.getList(userDAO.find(userId));
 
-		gameOrder.setUser(userDAO.find(userId));
-		gameOrder.setProduct(product);
+	    // Sprawdź, czy produkt już istnieje w zamówieniach użytkownika
+	    boolean productExists = userOrders.stream().anyMatch(order -> order.getProduct().getId().equals(product.getId()));
 
-		gameOrderDAO.create(gameOrder);
+	    // Jeśli produkt już istnieje, zwiększ ilość i cenę
+	    if (productExists) {
+	        for (Gameorder order : userOrders) {
+	            if (order.getProduct().getId().equals(product.getId())) {
+	                order.setAmount(order.getAmount() + 1);
+	                order.setPrice(order.getPrice() + product.getPrice());
+	                gameOrderDAO.merge(order);
+	                break;
+	            }
+	        }
+	    } else {
+	        // Jeśli nie istnieje, stwórz nowe zamówienie z ilością 1 i ceną produktu
+	        Gameorder newOrder = new Gameorder();
+	        newOrder.setUser(userDAO.find(userId));
+	        newOrder.setProduct(product);
+	        newOrder.setAmount(1);
+	        newOrder.setPrice(product.getPrice());
+	        gameOrderDAO.create(newOrder);
+	    }
 
-		return PAGE_STAY_AT_THE_SAME;
+	    return PAGE_STAY_AT_THE_SAME;
 	}
 
 	public String editProduct(Gameorder gameOrder) {

@@ -34,7 +34,7 @@ public class Product implements Serializable {
 
 	private String name;
 
-	private BigDecimal price;
+	private Integer price;
 
 	//bi-directional many-to-one association to Gameorder
 	@OneToMany(mappedBy="product")
@@ -79,11 +79,11 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public BigDecimal getPrice() {
+	public Integer getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

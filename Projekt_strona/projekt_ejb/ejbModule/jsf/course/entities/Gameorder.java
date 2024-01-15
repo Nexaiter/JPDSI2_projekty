@@ -26,9 +26,9 @@ public class Gameorder implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
-	private int amount;
+	private Integer amount;
 
-	private int price;	
+	private Integer price;	
 
 	//bi-directional many-to-one association to Product
 	@ManyToOne
@@ -59,7 +59,7 @@ public class Gameorder implements Serializable {
 		return this.amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Integer amount) {
 		this.amount = amount;
 	}
 
@@ -67,7 +67,7 @@ public class Gameorder implements Serializable {
 		return this.price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
